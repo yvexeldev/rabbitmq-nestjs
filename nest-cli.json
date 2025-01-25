@@ -54,6 +54,24 @@
       "compilerOptions": {
         "tsConfigPath": "libs/prisma/tsconfig.lib.json"
       }
+    },
+    "dto": {
+      "type": "library",
+      "root": "libs/dto",
+      "entryFile": "index",
+      "sourceRoot": "libs/dto/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/dto/tsconfig.lib.json"
+      }
+    },
+    "queu-names": {
+      "type": "library",
+      "root": "libs/queu-names",
+      "entryFile": "index",
+      "sourceRoot": "libs/queu-names/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/queu-names/tsconfig.lib.json"
+      }
     }
   }
 }

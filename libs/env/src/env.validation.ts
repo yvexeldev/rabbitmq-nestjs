@@ -1,16 +1,27 @@
 import { plainToInstance } from 'class-transformer';
-import { IsNotEmpty, IsNumber, Max, Min, validateSync } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Max,
+  Min,
+  validateSync,
+} from 'class-validator';
 
-export class EnvValidation {
+export class EnvVariables {
   @IsNotEmpty()
   @IsNumber()
   @Min(0)
   @Max(65535)
   API_GATEWAY_PORT: number;
+
+  @IsNotEmpty()
+  @IsString()
+  RABBITMQ_URL: string;
 }
 
 export function validate(config: Record<string, unknown>) {
-  const validatedConfig = plainToInstance(EnvValidation, config, {
+  const validatedConfig = plainToInstance(EnvVariables, config, {
     enableImplicitConversion: true,
   });
   const errors = validateSync(validatedConfig, {

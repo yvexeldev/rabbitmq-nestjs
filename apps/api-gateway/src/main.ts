@@ -8,7 +8,7 @@ async function bootstrap() {
   const logger = new Logger('GatewayMain');
   const env = app.get(EnvService);
 
-  const PORT = env.get('GATEWAY_PORT');
+  const PORT = env.VARIABLES.API_GATEWAY_PORT;
   await app.listen(PORT);
   logger.log(`App listening on PORT: ${PORT}`);
 }
