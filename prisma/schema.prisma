@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,99 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  firstName String     @map("first_name")
+  lastName  String     @map("last_name")
+  email     String
+  password  String
+  isActive  Boolean    @default(false) @map("is_active")
+  role      Role
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  cards     UserCard[]
+  purchases Purchase[]
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  USER
+  SUPERADMIN
+}
+
+model UserCard {
+  id       String     @id @default(uuid())
+  number   String     @unique
+  expires  String // 1229 => 12/29 or 0331 => 03/31
+  user     User       @relation(fields: [userId], references: [id])
+  userId   Int        @map("user_id")
+  balance  Decimal    @default(0.0)
+  Purchase Purchase[]
+
+  @@map("user_cards")
+}
+
+model File {
+  id        String   @id @default(uuid())
+  fileName  String   @map("file_name")
+  extension String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  book      Book?
+
+  @@map("files")
+}
+
+model Author {
+  id         Int      @id @default(autoincrement())
+  firstName  String   @map("first_name")
+  lastName   String   @map("last_name")
+  middleName String   @map("middle_name")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  books      Book[]
+
+  @@map("authors")
+}
+
+model Book {
+  id          String     @id @default(uuid())
+  title       String
+  description String     @db.Text
+  author      Author     @relation(fields: [authorId], references: [id])
+  authorId    Int        @map("author_id")
+  file        File       @relation(fields: [fileId], references: [id])
+  fileId      String     @unique @map("file_id")
+  year        Int // published year
+  pagesCount  Int        @map("pages_count")
+  price       Decimal
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  sales       Purchase[]
+
+  @@map("books")
+}
+
+model Purchase {
+  id         String         @id @default(uuid())
+  user       User           @relation(fields: [userId], references: [id])
+  userId     Int            @map("user_id")
+  book       Book           @relation(fields: [bookId], references: [id])
+  bookId     String         @map("book_id")
+  card       UserCard       @relation(fields: [userCardId], references: [id])
+  userCardId String         @map("user_card_id")
+  date       DateTime       @default(now())
+  createdAt  DateTime       @default(now()) @map("created_at")
+  updatedAt  DateTime       @updatedAt @map("updated_at")
+  status     PurchaseStatus
+}
+
+enum PurchaseStatus {
+  SUCCESS
+  PENDING
+  ERROR
 }
