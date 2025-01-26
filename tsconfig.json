@@ -47,6 +47,12 @@
       ],
       "@app/queu-names/*": [
         "libs/queu-names/src/*"
+      ],
+      "@app/service-names": [
+        "libs/service-names/src"
+      ],
+      "@app/service-names/*": [
+        "libs/service-names/src/*"
       ]
     }
   }

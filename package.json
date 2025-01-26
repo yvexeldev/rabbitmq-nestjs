@@ -85,7 +85,8 @@
       "^@app/env(|/.*)$": "<rootDir>/libs/env/src/$1",
       "^@app/prisma(|/.*)$": "<rootDir>/libs/prisma/src/$1",
       "^@app/dto(|/.*)$": "<rootDir>/libs/dto/src/$1",
-      "^@app/queu-names(|/.*)$": "<rootDir>/libs/queu-names/src/$1"
+      "^@app/queu-names(|/.*)$": "<rootDir>/libs/queu-names/src/$1",
+      "^@app/service-names(|/.*)$": "<rootDir>/libs/service-names/src/$1"
     }
   }
 }

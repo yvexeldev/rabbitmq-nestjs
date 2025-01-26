@@ -72,6 +72,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/queu-names/tsconfig.lib.json"
       }
+    },
+    "service-names": {
+      "type": "library",
+      "root": "libs/service-names",
+      "entryFile": "index",
+      "sourceRoot": "libs/service-names/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/service-names/tsconfig.lib.json"
+      }
     }
   }
 }
