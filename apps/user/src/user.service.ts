@@ -4,21 +4,18 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  Logger,
+  NotFoundException,
 } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
+  private logger = new Logger(UserService.name + ' RMQ');
   constructor(private readonly prisma: PrismaService) {}
-  getHello() {
-    return {
-      id: 1,
-      first_name: 'Azam',
-      last_name: 'Abdusalomov',
-    };
-  }
 
   async register(registerUserDto: RegisterUserDto) {
-    // TODO: Register user logic
+    await this.checkUser(registerUserDto.email);
+    //TODO: register fully logic
   }
 
   private async checkUser(email: string) {
@@ -33,5 +30,30 @@ export class UserService {
     } catch (error) {
       throw new InternalServerErrorException(JSON.stringify(error));
     }
+  }
+
+  async getUser(email: string) {
+    this.logger.log({ email }, 'Function start');
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email,
+        isActive: true,
+      },
+    });
+    this.logger.log({ user }, 'Function end');
+
+    return user;
+  }
+
+  async getUsers() {
+    this.logger.log('Function start');
+    const users = await this.prisma.user.findMany();
+    this.logger.log({ users }, 'Function end');
+
+    return users;
+  }
+
+  private hashPassword() {
+    //TODO: hashing password
   }
 }

@@ -1,13 +1,18 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Param } from '@nestjs/common';
 import { UserService } from './user.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @MessagePattern('get_hello')
-  getHello() {
-    return this.userService.getHello();
+  @MessagePattern('get_user')
+  async getUser(@Payload() payload: { email: string }) {
+    return this.userService.getUser(payload.email);
+  }
+
+  @MessagePattern('get_users')
+  async getUsers() {
+    return this.userService.getUsers();
   }
 }
