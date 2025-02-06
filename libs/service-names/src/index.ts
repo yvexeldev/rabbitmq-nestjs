@@ -1,3 +1,3 @@
-export const Services = {
-  UserService: 'USER_SERVICE',
-};
+export enum Services {
+  USER = 'USER_SERVICE',
+}
