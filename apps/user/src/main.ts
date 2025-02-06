@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { UserModule } from './user.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Logger } from '@nestjs/common';
-import { queus } from '@app/queu-names';
+import { Queues } from '@app/queu-names';
 import { EnvService } from '@app/env';
 
 async function bootstrap() {
@@ -17,7 +17,7 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [envService.VARIABLES.RABBITMQ_URL],
-        queue: queus.USER,
+        queue: Queues.USER,
         queueOptions: {
           durable: true,
         },
@@ -25,6 +25,6 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  logger.log(`User service is listening on queue: ${queus.USER}`);
+  logger.log(`User service is listening on queue: ${Queues.USER}`);
 }
 bootstrap();

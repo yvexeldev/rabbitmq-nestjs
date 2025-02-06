@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class UserService {
   constructor(
-    @Inject(Services.UserService) private readonly userClient: ClientProxy,
+    @Inject(Services.USER) private readonly userClient: ClientProxy,
   ) {}
 
   async getUser(email: string) {

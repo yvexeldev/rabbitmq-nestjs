@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { ClientsModule } from '@nestjs/microservices';
 import { Transport } from '@nestjs/microservices';
-import { queus } from '@app/queu-names';
+import { Queues } from '@app/queu-names';
 import { EnvService } from '@app/env';
 import { Services } from '@app/service-names';
 
@@ -11,12 +11,12 @@ import { Services } from '@app/service-names';
   imports: [
     ClientsModule.registerAsync([
       {
-        name: Services.UserService,
+        name: Services.USER,
         useFactory: async (envService: EnvService) => ({
           transport: Transport.RMQ,
           options: {
             urls: [envService.VARIABLES.RABBITMQ_URL],
-            queue: queus.USER,
+            queue: Queues.USER,
             queueOptions: {
               durable: true,
             },

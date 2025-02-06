@@ -1,4 +1,4 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { EnvService } from '@app/env';
 import { Logger } from '@nestjs/common';
@@ -9,7 +9,6 @@ async function bootstrap() {
   const logger = new Logger('GatewayMain');
   const env = app.get(EnvService);
 
-  const httpAdapterHost = app.get(HttpAdapterHost);
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const PORT = env.VARIABLES.API_GATEWAY_PORT;
